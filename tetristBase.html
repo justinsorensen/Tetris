@@ -20,10 +20,9 @@
 <body>
   <canvas id="canvas" width="250" height="450"></canvas>
   
-  <script type="text/javascript" src ="kibo.js"></script>
   <script type="text/javascript"> 
     var CELL_SIZE = 25;
-    var INTERVAL = 600; // milliseconds
+    var INTERVAL = 25; // milliseconds
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var inactiveBlocks = [];
@@ -33,38 +32,20 @@
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, 10 * CELL_SIZE, 18 * CELL_SIZE);
     }
-	
 
     function Cell(x, y) {
       this.x = x;
       this.y = y;
-	  this.draw = function() {
-		ctx.fillStyle = '#000000';
-		ctx.fillRect(this.x * CELL_SIZE, this.y * CELL_SIZE, 25, 25);
-	  }
-	  
-	  this.drop = function() {
-		++this.y;
-	  }
-	  
-	  this.shiftLeft = function() {
-		--this.x;
-	  }
-	  
-	  this.shiftRight = function() {
-		++this.x;
-	  }
-	  
     }
 
-    /*Cell.prototype.draw = function() {
+    Cell.prototype.draw = function() {
       ctx.fillStyle = '#000000';
       ctx.fillRect(this.x * CELL_SIZE, this.y * CELL_SIZE, 25, 25);
-    };*/
+    };
 
-    /*Cell.prototype.drop = function() {
+    Cell.prototype.drop = function() {
       ++this.y;
-    }*/
+    }
 
     function Block(blockType) {
       this.type = blockType;
@@ -77,53 +58,7 @@
         this.cells.push(new Cell(this.x, this.y - 2));
         this.cells.push(new Cell(this.x, this.y - 3));
       } 
-	  
-	  this.draw = function() {
-			if (this.type === 0) {
-				for (var i = 0; i < 4; ++i) this.cells[i].draw();
-        
-			}
-	  }
-	  
-	  this.drop = function() {
-		this.y++;
-		for(var i = 0; i < this.cells.length; i++) {
-			this.cells[i].draw();
-		}
-	  }
-	  
-	  this.moveLeft = function() {
-		for(var i = 0; i < this.cells.length; i++) {
-			if(this.cells[i].x <=0) {
-				return false;
-			}
-			else
-			{	
-				for(var i = 0; i < this.cells.length; i++) {
-					this.cells[i].shiftLeft();
-					this.x--;
-				}
-			}
-		}
-	  }
-	  
-	  this.moveRight = function() {
-		for(var i = 0; i < this.cells.length; i++) {
-			if(this.cells[i].x >=9) {
-				return false;
-			}
-			else
-			{	
-				for(var i = 0; i < this.cells.length; i++) {
-					this.cells[i].shiftRight();
-					this.x++;
-				}
-			}
-		}
-	  }
-    
-	}
-	
+    }
 
     Block.prototype.draw = function() {
       if (this.type === 0) {
@@ -162,19 +97,6 @@
       return true;
     }
 
-	//************Key input using kibo.js recommened on ibm.com https://github.com/marquete/kibo/blob/master/kibo.js
-	
-	var k = new Kibo();
-	
-	k.down(['left'], function () {
-	    activeBlock.moveLeft();
-	    activeBlock.draw();
-	});
-	k.down(['right'], function () {
-	    activeBlock.moveRight();
-	    activeBlock.draw();
-	});
-	
     activeBlock.draw();
     var interval = setInterval(function() {
       clearGrid();
