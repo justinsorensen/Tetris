@@ -45,6 +45,7 @@
 	  
 	  this.drop = function() {
 		++this.y;
+		console.log('dropped cell');
 	  }
 	  
 	  this.shiftLeft = function() {
@@ -85,12 +86,13 @@
 			}
 	  }
 	  
-	  this.drop = function() {
-		this.y++;
+	  /*this.drop = function() {
+		++this.y;
+		console.log('dropped block');
 		for(var i = 0; i < this.cells.length; i++) {
 			this.cells[i].draw();
 		}
-	  }
+	  }*/
 	  
 	  this.moveLeft = function() {
 		for(var i = 0; i < this.cells.length; i++) {
@@ -190,6 +192,8 @@
       }
       activeBlock.draw();
     }, INTERVAL);
+	
+	
 
 
   </script>
