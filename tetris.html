@@ -94,13 +94,26 @@
 		}
 	  }*/
 	  
+	  
+	  //****************moveFunctions need collision check******************
+	  this.canMoveLeft = function() {
+	    for(var i = 0; i < inactiveBlocks.length; i++) {
+		  if(activeBlock.wouldCollideLeft(inactiveBlocks[i])) { 
+			return false;
+			console.log('canMoveLeft == false');
+		  }
+		return true;
+		}
+	  }
+	  
+	  
 	  this.moveLeft = function() {
 		for(var i = 0; i < this.cells.length; i++) {
 			if(this.cells[i].x <=0) {
 				return false;
+				console.log('moveLeft == false');
 			}
-			else
-			{	
+			if(activeBlock.canMoveLeft()) {	
 				for(var i = 0; i < this.cells.length; i++) {
 					this.cells[i].shiftLeft();
 					this.x--;
@@ -109,13 +122,23 @@
 		}
 	  }
 	  
+	  this.canMoveRight = function() {
+	    for(var i = 0; i < inactiveBlocks.length; i++) {
+		  if(activeBlock.wouldCollideRight(inactiveBlocks[i])) {
+			return false;
+			console.log('canMoveRight == false');
+		  }
+	    }
+		return true;
+	  }
+	  
 	  this.moveRight = function() {
 		for(var i = 0; i < this.cells.length; i++) {
 			if(this.cells[i].x >=9) {
 				return false;
+				console.log('moveRight == false');
 			}
-			else
-			{	
+			if(activeBlock.canMoveRight()) {	
 				for(var i = 0; i < this.cells.length; i++) {
 					this.cells[i].shiftRight();
 					this.x++;
@@ -134,13 +157,41 @@
       }
     };
 
-    Block.prototype.wouldCollide = function(otherBlock) {
+    Block.prototype.wouldCollideDown = function(otherBlock) {		//Down collision check
       for (var i = 0; i < 4; ++i) {
         var cell = this.cells[i];
         for (var j = 0; j < 4; ++j) {
           var otherCell = otherBlock.cells[j];
           if (otherCell.x == cell.x && otherCell.y == cell.y + 1) {
             return true;
+          }
+        }
+      }
+      return false;
+    };
+	
+	Block.prototype.wouldCollideRight = function(otherBlock) {		//Right collision check
+      for (var i = 0; i < 4; ++i) {
+        var cell = this.cells[i];
+        for (var j = 0; j < otherBlock.cells.length; ++j) {
+          var otherCell = otherBlock.cells[j];
+          if (otherCell.x == cell.x + 1 && otherCell.y == cell.y) {
+            return true;
+			console.log('wouldCollideRight == true');
+          }
+        }
+      }
+      return false;
+    };
+	
+	Block.prototype.wouldCollideLeft = function(otherBlock) {		//Left collision check
+      for (var i = 0; i < 4; ++i) {
+        var cell = this.cells[i];
+        for (var j = 0; j < otherBlock.cells.length; ++j) {
+          var otherCell = otherBlock.cells[j];
+          if (otherCell.x == cell.x - 1 && otherCell.y == cell.y) {
+            console.log('wouldCollideLeft == true');
+			return true;
           }
         }
       }
@@ -157,7 +208,7 @@
         return false;
       }
       for (var i = 0; i < inactiveBlocks.length; ++i) {
-        if (activeBlock.wouldCollide(inactiveBlocks[i])) {
+        if (activeBlock.wouldCollideDown(inactiveBlocks[i])) {
           return false;
         }
       }
