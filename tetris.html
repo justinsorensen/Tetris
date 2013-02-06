@@ -28,14 +28,14 @@
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var inactiveBlocks = [];
-    var activeBlock = new Block(0);
+    //var activeBlock = new Block(0);
 	//var blockRotate = [[0,-1],[0,0],[0,1],[0,2]];		//attempting to implement offsets as suggested by Dr. Turner
 	
 	//var blockRotate = [-1,0,1,2];
 	
 	var blockRotate = new Array();
 	blockRotate = [-1,0,1,2];
-	
+
 	/*blockRotate = {
 		0:[[0,-1],[0,0],[0,1],[0,2]]
 	}*/
@@ -48,6 +48,9 @@
 		[[-2,0],[-1,0],[0,0],[1,0]] 
 	];*/
 	//blockRotate[0][0] = [[0,-1],[0,0],[0,1],[0,2]];
+	
+	var activeBlock = new Block(0);
+	
 	
     function clearGrid() {
       ctx.fillStyle = '#FFFFFF';
