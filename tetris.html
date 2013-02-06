@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -28,14 +29,24 @@
     var ctx = canvas.getContext('2d');
     var inactiveBlocks = [];
     var activeBlock = new Block(0);
-	var blockRotate = [];		//attempting to implement offsets as suggested by Dr. Turner
+	//var blockRotate = [[0,-1],[0,0],[0,1],[0,2]];		//attempting to implement offsets as suggested by Dr. Turner
+	
+	//var blockRotate = [-1,0,1,2];
+	
+	var blockRotate = new Array();
+	blockRotate = [-1,0,1,2];
+	
+	/*blockRotate = {
+		0:[[0,-1],[0,0],[0,1],[0,2]]
+	}*/
+	
 	//Line Block
-	blockRotate[0] = [
-	  [[0,-1],[0,0],[0,1],[0,2]],
-	  [[-1,0],[0,0],[1,0],[2,0]],
-	  [[0,-2],[0,-1],[0,0],[0,1]],
-	  [[-2,0],[-1,0],[0,0],[1,0]] 
-	];
+	/*blockRotate[0] = [
+		[[0,-1],[0,0],[0,1],[0,2]],
+		[[-1,0],[0,0],[1,0],[2,0]],
+		[[0,-2],[0,-1],[0,0],[0,1]],
+		[[-2,0],[-1,0],[0,0],[1,0]] 
+	];*/
 	//blockRotate[0][0] = [[0,-1],[0,0],[0,1],[0,2]];
 	
     function clearGrid() {
@@ -43,7 +54,7 @@
       ctx.fillRect(0, 0, 10 * CELL_SIZE, 18 * CELL_SIZE);
     }
 	
-
+	//***********Cell definition begin *******************
     function Cell(x, y) {
       this.x = x;
       this.y = y;
@@ -66,8 +77,10 @@
 	  }
 	  
     }
+	//************* Cell definition end ***********************
 
 	
+	//************* Block definition begin*********************
 	
     function Block(blockType) {
       this.type = blockType;
@@ -75,9 +88,14 @@
       this.x = 5;
       this.y = 0;
 	  this.rotating = 0;
-	  for(var i = 0; i < 4; i++) {
-		this.cells.push(new Cell(this.x /*+ blockRotate[i][0]*/, this.y /*+ blockRotate[this.type][this.rotating][i][1]*/));
-	  }
+	  
+		  for(var i = 0; i < 4; i++) {		//index position definitions [block type][which rotation][which block][x or y]
+			this.cells.push(new Cell(this.x, this.y + blockRotate[i]));
+			//this.cells.push(new Cell(this.x + blockRotate[this.type][this.rotating][i][1], this.y + blockRotate[this.type][this.rotating][i][1]*/));
+			//console.log(blockRotate[0][0]);
+		  }
+		  
+	  
 	  
 	  
       /*if (this.type === 0) {						//Old block creation, NEED TO DELETE.
@@ -162,6 +180,7 @@
 	  }
     
 	}
+	//***************Block definition end ************************
 	
 
     Block.prototype.draw = function() {
